@@ -11,7 +11,7 @@ export class RequestsService {
     @InjectRepository(Request) private requestsRepository: Repository<Request>,
   ) {}
 
-  async findPage(userId: number, page?: number): Promise<IPagination> {
+  async findPage(userId: string, page?: number): Promise<IPagination> {
     const internalPage = page || 0
     const [results, total] = await this.requestsRepository.findAndCount({
       where: { user: userId },

@@ -5,7 +5,7 @@ import { Request } from '../requests/request.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column()
   name: string;

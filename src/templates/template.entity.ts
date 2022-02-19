@@ -5,7 +5,7 @@ import { Request } from '../requests/request.entity';
 @Entity()
 export class Template {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({ default: '' })
   name: string;

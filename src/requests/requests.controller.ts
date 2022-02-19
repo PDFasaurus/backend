@@ -18,7 +18,7 @@ export class RequestsController {
       const currentPage: number = !page ? 0 : parseInt(page.toString());
       const req: any = request;
       const requestUser: any = req.user;
-      const userId: number = requestUser.user;
+      const userId: string = requestUser.user;
       const requests: IPagination = await this.requestsService.findPage(userId, currentPage);
 
       return requests

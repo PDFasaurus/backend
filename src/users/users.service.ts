@@ -17,7 +17,7 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
-  async findOne(id: number): Promise<User> {
+  async findOne(id: string): Promise<User> {
     return await this.usersRepository.findOne(id);
   }
 
@@ -75,15 +75,15 @@ export class UsersService {
     return await this.usersRepository.update(user.id, user);
   }
 
-  async cancelSubscription(userId: number): Promise<UpdateResult> {
+  async cancelSubscription(userId: string): Promise<UpdateResult> {
     return await this.usersRepository.update(userId, { plan: 0, balance: 0 });
   }
 
-  async updateSubscriptionPlan(userId: number, plan: number, balance: number): Promise<UpdateResult> {
+  async updateSubscriptionPlan(userId: string, plan: number, balance: number): Promise<UpdateResult> {
     return await this.usersRepository.update(userId, { plan, balance });
   }
 
-  async updateSubscription(userId: number, subscription: IUserSubscription): Promise<UpdateResult> {
+  async updateSubscription(userId: string, subscription: IUserSubscription): Promise<UpdateResult> {
     return await this.usersRepository.update(userId, subscription);
   }
 

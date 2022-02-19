@@ -19,7 +19,7 @@ export class UsersController {
   @Get(':id')
   async findOne(@Param('id') id, @Body() userData: User): Promise<User> {
     try {
-      userData.id = Number(id);
+      userData.id = id;
       const user: User = await this.usersService.findOne(id)
 
       return user
@@ -33,7 +33,7 @@ export class UsersController {
   @HttpCode(204)
   async update(@Param('id') id, @Body() userData: User): Promise<UpdateResult> {
     try {
-      userData.id = Number(id);
+      userData.id = id;
 
       return this.usersService.update(userData);
     } catch(error) {
@@ -46,7 +46,7 @@ export class UsersController {
   @HttpCode(204)
   async updateSubscription(@Param('id') id, @Body() body: any): Promise<boolean> {
     try {
-      const userId: number = Number(id);
+      const userId: string = id;
       const user: User = await this.usersService.findOne(userId);
       const subscriptionId: number = user.subscriptionId;
       const oldPlan: number = user.plan;
@@ -133,7 +133,7 @@ export class UsersController {
   @HttpCode(204)
   async cancelSubscription(@Param('id') id): Promise<any> {
     try {
-      const userId: number = Number(id);
+      const userId: string = id;
       const user: User = await this.usersService.findOne(userId);
       const subscriptionId: number = user.subscriptionId;
 

@@ -18,7 +18,7 @@ export class KeyController {
     try {
       const req: any = request;
       const requestUser: any = req.user;
-      const userId: number = requestUser.user;
+      const userId: string = requestUser.user;
       const { apiKey } = await this.usersService.findOne(userId);
 
       return { apiKey }
@@ -34,7 +34,7 @@ export class KeyController {
     try {
       const req: any = request;
       const requestUser: any = req.user;
-      const userId: number = requestUser.user;
+      const userId: string = requestUser.user;
       const newKey = uuidv4();
       const updateUserKey: IUpdateUserKey = {
         id: userId,

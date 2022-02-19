@@ -5,7 +5,7 @@ import { User } from '../users/user.entity';
 @Entity()
 export class Request {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({ nullable: true })
   apiKey: string;

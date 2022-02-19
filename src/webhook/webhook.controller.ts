@@ -79,7 +79,7 @@ export class WebhookController {
   async subscriptionCancelled(body: any): Promise<boolean> {
     const { subscription_id } = body
     const user: User = await this.usersService.findOneWithSubscriptionId(Number(subscription_id))
-    const userId: number = Number(user.id);
+    const userId: string = user.id;
     await this.usersService.cancelSubscription(userId)
     return true;
   }

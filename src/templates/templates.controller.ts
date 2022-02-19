@@ -21,7 +21,7 @@ export class TemplatesController {
     try {
       const req: any = request;
       const requestUser: any = req.user;
-      const userId: number = requestUser.user;
+      const userId: string = requestUser.user;
       const user: Partial<User> = { id: userId };
       const templates: Template[] = await this.templatesService.findAll(user)
 
@@ -35,7 +35,7 @@ export class TemplatesController {
   @Get(':id')
   async findOne(@Param('id') id, @Body() templateData: Template): Promise<Template> {
     try {
-      templateData.id = Number(id);
+      templateData.id = id;
       const template: Template = await this.templatesService.findOne(id)
 
       return template
@@ -46,13 +46,16 @@ export class TemplatesController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async create(@Body() values: any): Promise<Template> {
+  async create(@Body() values: any, @Req() request: Request): Promise<Template> {
     try {
+      const req: any = request;
+      const requestUser: any = req.user;
+      const userId: string = requestUser.user;
       const templateData: ICreateTemplate = {
         name: values.name,
         content: '<html><head></head><body>Go go dino-rangers! Add values like a {{name}} with the API!</body></html>',
         uuid: uuidv4(),
-        user: { id: 1 },
+        user: { id: userId },
       }
 
       // Get the new template
@@ -68,7 +71,7 @@ export class TemplatesController {
   async update(@Param('id') id, @Body() values: any): Promise<UpdateResult> {
     try {
       const templateData: IUpdateTemplate = {
-        id: Number(id),
+        id,
         name: values.name,
         content: values.content,
         deleted: values.deleted,

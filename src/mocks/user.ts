@@ -1,7 +1,7 @@
 import { User } from '../users/user.entity';
 
 export const user: User = <User>{
-  id: 1,
+  id: "3e8b241f-cec1-4a69-aa4c-c8b3403f9b4d",
   name: "Jo du Plessis",
   password: "",
   email: "jo@joduplessis.com",
