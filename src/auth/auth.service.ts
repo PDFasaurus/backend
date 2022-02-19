@@ -4,16 +4,14 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/user.entity';
 import { hash, compare } from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
-import { send, setApiKey } from '@sendgrid/mail';
+import * as postmark from 'postmark';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService
-  ) {
-    setApiKey(process.env.SENDGRID_API_KEY);
-  }
+  ) {}
 
   async validateUser(email: string, password: string): Promise<User> {
     try {
@@ -42,17 +40,18 @@ export class AuthService {
   async reset(email: string): Promise<User> {
     try {
       const token = uuidv4();
+      const client = new postmark.ServerClient(process.env.POSTMARK_TOKEN);
       const user = await this.usersService.findOneWithEmail(email);
+
       if (!user) throw('Not found');
 
-      await send({
-        to: user.email,
-        from: 'support@pdfasaurus.com',
-        text: 'template',
-        html: 'template',
-        templateId: 'd-9761a7e7551b415cb4b4490457f7c360',
-        dynamicTemplateData: { token }
-      });
+      client.sendEmailWithTemplate({
+        From: 'support@pdfasaurus.com',
+        To: email,
+        ReplyTo: 'support@pdfasaurus.com',
+        TemplateAlias: 'password-reset',
+        TemplateModel: { token },
+    })
 
       user.resetToken = token
       this.usersService.update(user);
