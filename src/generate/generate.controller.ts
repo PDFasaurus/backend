@@ -59,6 +59,7 @@ export class GenerateController {
       if (!user) throw('No user found');
       const template: Template = await this.templatesService.findOneWithUuid(uuid);
       if (!template) throw('No template found');
+      const { width, height } = template;
       const parsedValues: any = typeof values == "string" ? JSON.parse(values) : values;
       const compiledTemplate = Handlebars.compile(template.content);
       const html = compiledTemplate(parsedValues);
@@ -81,7 +82,7 @@ export class GenerateController {
       await this.requestsService.create(request)
 
       // Create the stream
-      pdf.create(html).toStream((err, stream) => {
+      pdf.create(html, { height: height + "mm", width: width + "mm" }).toStream((err, stream) => {
         if (err) throw(err)
         res.header('Content-type', 'application/pdf');
         stream.pipe(res);
@@ -107,6 +108,7 @@ export class GenerateController {
       if (!user) throw('No user found');
       const template: Template = await this.templatesService.findOneWithUuid(uuid);
       if (!template) throw('No template found');
+      const { width, height } = template;
       const parsedValues: any = typeof values == "string" ? JSON.parse(values) : values;
       const compiledTemplate = Handlebars.compile(template.content);
       const html = compiledTemplate(parsedValues);
@@ -130,7 +132,7 @@ export class GenerateController {
 
       // Create teh buffer
       const buffer: Buffer = await new Promise((resolve, reject) => {
-        pdf.create(html).toBuffer((err, buffer) => {
+        pdf.create(html, { height: height + "mm", width: width + "mm" }).toBuffer((err, buffer) => {
           if (err) reject(err);
 
           resolve(buffer);
@@ -160,6 +162,7 @@ export class GenerateController {
       if (!user) throw('No user found');
       const template: Template = await this.templatesService.findOneWithUuid(uuid);
       if (!template) throw('No template found');
+      const { width, height } = template;
       const parsedValues: any = typeof values == "string" ? JSON.parse(values) : values;
       const compiledTemplate = Handlebars.compile(template.content);
       const html = compiledTemplate(parsedValues);
@@ -183,7 +186,7 @@ export class GenerateController {
 
       // Create teh buffer
       const buffer: Buffer = await new Promise((resolve, reject) => {
-        pdf.create(html).toBuffer((err, buffer) => {
+        pdf.create(html, { height: height + "mm", width: width + "mm" }).toBuffer((err, buffer) => {
           if (err) reject(err);
 
           resolve(buffer);

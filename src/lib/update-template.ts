@@ -6,4 +6,6 @@ export interface IUpdateTemplate {
   name: string,
   content: string,
   deleted: boolean,
+  width: number,
+  height: number,
 }

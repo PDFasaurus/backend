@@ -10,6 +10,12 @@ export class Template {
   @Column({ default: '' })
   name: string;
 
+  @Column({ default: 210 })
+  width: number;
+
+  @Column({ default: 297 })
+  height: number;
+
   @Column({ default: '' })
   uuid: string;
 

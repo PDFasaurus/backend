@@ -75,6 +75,8 @@ export class TemplatesController {
         name: values.name,
         content: values.content,
         deleted: values.deleted,
+        width: values.width,
+        height: values.height,
       }
 
       return this.templatesService.update(templateData);
@@ -94,11 +96,12 @@ export class TemplatesController {
       const templateId: string = id
       const templateValues: string = String(values)
       const template: Template = await this.templatesService.findOne(templateId);
+      const { width, height } = template;
       const parsedValues: any = JSON.parse(templateValues)
       const compiledTemplate = Handlebars.compile(template.content);
       const html = compiledTemplate(parsedValues);
 
-      pdf.create(html).toStream((err, stream) => {
+      pdf.create(html, { height: height + "mm", width: width + "mm" }).toStream((err, stream) => {
         if (err) throw(err)
         res.header('Content-type', 'application/pdf');
         stream.pipe(res);
