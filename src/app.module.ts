@@ -26,8 +26,8 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
       database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
       synchronize: true, // should be false for Migrations
-      logging: false,
-      ssl: process.env.NODE_ENV == 'production' ? { rejectUnauthorized: false } : false,
+      logging: process.env.NODE_ENV != 'production',
+      ssl: false, //process.env.NODE_ENV == 'production' ? { rejectUnauthorized: false } : false,
     }),
     UsersModule,
     TemplatesModule,
